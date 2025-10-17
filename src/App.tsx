@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LazyVideo } from './components/LazyVideo';
 import { useThrottledMouseTracking } from './hooks/useThrottledMouseTracking';
 import { MobileBadgeCarousel } from './components/MobileBadgeCarousel';
+import { SplashScreen } from './components/SplashScreen';
 
 // Mobile viewport height handler
 function setMobileVH() {
@@ -52,6 +53,7 @@ const desktopImages = [
  
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [showContact, setShowContact] = React.useState(false);
   const [showArrow, setShowArrow] = React.useState(true);
@@ -62,8 +64,6 @@ function App() {
   const desktopImagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const arrowRef = useRef<HTMLDivElement>(null);
   const [mobileVH, setMobileVH] = useState<number | null>(null);
-  const [loadedMobileImages, setLoadedMobileImages] = useState<number>(0);
-  const [loadedDesktopImages, setLoadedDesktopImages] = useState<number>(0);
 
 
   // Handle mobile viewport height
@@ -107,8 +107,8 @@ const mobileElements = gsap.utils.toArray(".mobile-image");
       opacity: 0,
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
-        start: "top top",
-        end: "top center",
+        start: "center top",
+        end: "top top",
         scrub: 0,
       }
     });
@@ -118,7 +118,7 @@ gsap.to(mobileElements, {
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
         start: "top top",
-        end: "top center", 
+        end: "top center",
         scrub: 0,
       }
     });
@@ -153,7 +153,7 @@ gsap.to(mobileElements, {
           trigger: portfolioSectionRef.current,
           start: "top bottom",
           end: "top center",
-          scrub: 1,
+          scrub: 0,
           markers: false,
           onEnter: () => setShowArrow(false),
           onLeaveBack: () => setShowArrow(true),
@@ -176,12 +176,15 @@ gsap.to(mobileElements, {
   };
 }, []);
 
- 
- 
-  return ( 
+
+
+  return (
     <div className="relative">
-   
-  
+      {showSplash && (
+        <SplashScreen onComplete={() => setShowSplash(false)} />
+      )}
+
+
 <div
   ref={fixedBackgroundRef}
   className="fixed inset-0 bg-center bg-no-repeat z-[-1] 
@@ -219,18 +222,12 @@ gsap.to(mobileElements, {
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
-                display: index <= loadedMobileImages ? 'block' : 'none',
               }}
             >
               <img
                 src={img.src}
                 alt={`Mobile layer ${index + 1}`}
                 className="w-full h-full object-cover"
-                onLoad={() => {
-                  if (index === loadedMobileImages) {
-                    setLoadedMobileImages(prev => prev + 1);
-                  }
-                }}
               />
             </div>
           ))}
@@ -247,18 +244,12 @@ gsap.to(mobileElements, {
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
-                display: index <= loadedDesktopImages ? 'block' : 'none',
               }}
             >
               <img
                 src={img.src}
                 alt={`Desktop layer ${index + 1}`}
-                className={`w-full h-full object-cover ${img.src === '/pc/name.png' ? 'hover:scale-105 transition-transform duration-300 cursor-pointer' : ''}`}
-                onLoad={() => {
-                  if (index === loadedDesktopImages) {
-                    setLoadedDesktopImages(prev => prev + 1);
-                  }
-                }}
+                className="w-full h-full object-cover"
               />
             </div>
           ))}
