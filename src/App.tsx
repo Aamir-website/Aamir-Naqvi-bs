@@ -6,7 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LazyVideo } from './components/LazyVideo';
 import { useThrottledMouseTracking } from './hooks/useThrottledMouseTracking';
 import { MobileBadgeCarousel } from './components/MobileBadgeCarousel';
-import { SplashScreen } from './components/SplashScreen';
 
 // Mobile viewport height handler
 function setMobileVH() {
@@ -30,30 +29,29 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 2, isStatic: false },
-  { src: '/mobile/7.png', delay: 1.4, isStatic: false },
-  { src: '/mobile/mb5-6.png', delay: 1.6, isStatic: false },
-  { src: '/mobile/mb3-4.png', delay: 2.4, isStatic: false },
-  { src: '/mobile/mb1-2.png', delay: 2.0, isStatic: false },
-  { src: '/mobile/mbme.png', delay: 2.2, isStatic: false},
-  { src: '/mobile/mobile bg.png', delay: 0, isStatic: true },
+  { src: '/mobile/mbname.png', delay: 0.2, isStatic: false },
+  { src: '/mobile/7.png', delay: 0.4, isStatic: false },
+  { src: '/mobile/mb5-6.png', delay: 0.6, isStatic: false },
+  { src: '/mobile/mb3-4.png', delay: 0.8, isStatic: false },
+  { src: '/mobile/mb1-2.png', delay: 1.0, isStatic: false },
+  { src: '/mobile/mbme.png', delay: 1.2, isStatic: false},
+  { src: '/mobile/mobile bg.png', delay: 1.4, isStatic: true },
 ];
 
 const desktopImages = [ 
-  { src: '/pc/me.png', delay: 2.2, isStatic: true },
-  { src: '/pc/me 2.png', delay: 2.4, isStatic: true },
-  { src: '/pc/5-6.png', delay: 2.5},
-  { src: '/pc/3-4.png', delay: 2.4 },
-  { src: '/pc/1-2.png', delay: 2.3, isStatic: true}, 
-  { src: '/pc/7.png', delay: 1.4, isStatic: true },
-  { src: '/pc/name.png', delay: 2  }, 
+  { src: '/pc/me.png', delay: 1.2, isStatic: true },
+  { src: '/pc/me 2.png', delay: 1.4, isStatic: true },
+  { src: '/pc/5-6.png', delay: 0.6},
+  { src: '/pc/3-4.png', delay: 0.8 },
+  { src: '/pc/1-2.png', delay: 1.0, isStatic: true}, 
+  { src: '/pc/7.png', delay: 1.2, isStatic: true },
+  { src: '/pc/name.png', delay: 0  }, 
  
 ];
 
  
 
 function App() {
-  const [showSplash, setShowSplash] = useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [showContact, setShowContact] = React.useState(false);
   const [showArrow, setShowArrow] = React.useState(true);
@@ -64,6 +62,8 @@ function App() {
   const desktopImagesRef = useRef<(HTMLDivElement | null)[]>([]);
   const arrowRef = useRef<HTMLDivElement>(null);
   const [mobileVH, setMobileVH] = useState<number | null>(null);
+  const [loadedMobileImages, setLoadedMobileImages] = useState<number>(0);
+  const [loadedDesktopImages, setLoadedDesktopImages] = useState<number>(0);
 
 
   // Handle mobile viewport height
@@ -107,8 +107,8 @@ const mobileElements = gsap.utils.toArray(".mobile-image");
       opacity: 0,
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
-        start: "center top",
-        end: "top top",
+        start: "top top",
+        end: "top center",
         scrub: 0,
       }
     });
@@ -117,8 +117,8 @@ gsap.to(mobileElements, {
       opacity: 0,
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
-        start: "center top",
-        end: "top top",
+        start: "top top",
+        end: "bottom top",
         scrub: 0,
       }
     });
@@ -153,7 +153,7 @@ gsap.to(mobileElements, {
           trigger: portfolioSectionRef.current,
           start: "top bottom",
           end: "top center",
-          scrub: 0,
+          scrub: 1,
           markers: false,
           onEnter: () => setShowArrow(false),
           onLeaveBack: () => setShowArrow(true),
@@ -176,15 +176,12 @@ gsap.to(mobileElements, {
   };
 }, []);
 
-
-
-  return (
+ 
+ 
+  return ( 
     <div className="relative">
-      {showSplash && (
-        <SplashScreen onComplete={() => setShowSplash(false)} />
-      )}
-
-
+   
+  
 <div
   ref={fixedBackgroundRef}
   className="fixed inset-0 bg-center bg-no-repeat z-[-1] 
@@ -222,12 +219,18 @@ gsap.to(mobileElements, {
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
+                display: index <= loadedMobileImages ? 'block' : 'none',
               }}
             >
               <img
                 src={img.src}
                 alt={`Mobile layer ${index + 1}`}
                 className="w-full h-full object-cover"
+                onLoad={() => {
+                  if (index === loadedMobileImages) {
+                    setLoadedMobileImages(prev => prev + 1);
+                  }
+                }}
               />
             </div>
           ))}
@@ -244,12 +247,18 @@ gsap.to(mobileElements, {
                 zIndex: img.isStatic ? 0 : index + 10,
                 animation: img.isStatic ? 'none' : `slideUp 1s ease-out ${img.delay}s forwards`,
                 transform: img.isStatic ? 'translateY(0)' : 'translateY(100vh)',
+                display: index <= loadedDesktopImages ? 'block' : 'none',
               }}
             >
               <img
                 src={img.src}
                 alt={`Desktop layer ${index + 1}`}
-                className="w-full h-full object-cover"
+                className={`w-full h-full object-cover ${img.src === '/pc/name.png' ? 'hover:scale-105 transition-transform duration-300 cursor-pointer' : ''}`}
+                onLoad={() => {
+                  if (index === loadedDesktopImages) {
+                    setLoadedDesktopImages(prev => prev + 1);
+                  }
+                }}
               />
             </div>
           ))}
