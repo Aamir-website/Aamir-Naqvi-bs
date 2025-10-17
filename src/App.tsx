@@ -106,7 +106,7 @@ const mobileElements = gsap.utils.toArray(".mobile-image");
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
         start: "center top",
-        end: "top center",
+        end: "top top",
         scrub: 0,
       }
     });
