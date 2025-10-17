@@ -21,7 +21,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       .fromTo(dotRef.current,
         {
           scale: 0,
-          opacity: 1
+          opacity: 1,
             ease: 'power2.out'
         },
         {
