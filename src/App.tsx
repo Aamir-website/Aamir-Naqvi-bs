@@ -151,7 +151,7 @@ gsap.to(mobileElements, {
           trigger: portfolioSectionRef.current,
           start: "top bottom",
           end: "top center",
-          scrub: 1,
+          scrub: 0,
           markers: false,
           onEnter: () => setShowArrow(false),
           onLeaveBack: () => setShowArrow(true),
