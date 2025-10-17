@@ -20,7 +20,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     tl.set(containerRef.current, { opacity: 1 })
       .fromTo(dotRef.current,
         {
-          scale: 0,
+          scale: 1,
           opacity: 1
         },
         {
