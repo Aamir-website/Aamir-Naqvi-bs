@@ -24,7 +24,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
           opacity: 1
         },
         {
-          scale: 20,
+          scale: 10,
           duration: 0.8,
           ease: 'power2.out'
         }
