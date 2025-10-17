@@ -30,13 +30,13 @@ const getMobileVH = () => {
   return null;
 };
 const mobileImages = [
-  { src: '/mobile/mbname.png', delay: 3.2, isStatic: false },
-  { src: '/mobile/7.png', delay: 3.4, isStatic: false },
-  { src: '/mobile/mb5-6.png', delay: 3.6, isStatic: false },
-  { src: '/mobile/mb3-4.png', delay: 3.8, isStatic: false },
-  { src: '/mobile/mb1-2.png', delay: 4.0, isStatic: false },
-  { src: '/mobile/mbme.png', delay: 4.2, isStatic: false},
-  { src: '/mobile/mobile bg.png', delay: 4.4, isStatic: true },
+  { src: '/mobile/mbname.png', delay: 2.2, isStatic: false },
+  { src: '/mobile/7.png', delay: 2.4, isStatic: false },
+  { src: '/mobile/mb5-6.png', delay: 2.6, isStatic: false },
+  { src: '/mobile/mb3-4.png', delay: 2.8, isStatic: false },
+  { src: '/mobile/mb1-2.png', delay: 3.0, isStatic: false },
+  { src: '/mobile/mbme.png', delay: 3.2, isStatic: false},
+  { src: '/mobile/mobile bg.png', delay: 3.4, isStatic: true },
 ];
 
 const desktopImages = [ 
