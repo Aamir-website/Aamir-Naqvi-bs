@@ -76,7 +76,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 z-[10000] flex items-center justify-center bg-[#0c0c0c] opacity-0"
+      className="fixed inset-0 z-[10000] flex items-center justify-center bg-black opacity-0"
       style={{ pointerEvents: 'none' }}
     >
       <div className="relative flex flex-col items-center justify-center">
