@@ -33,7 +33,7 @@ const mobileImages = [
   { src: '/mobile/mbname.png', delay: 2, isStatic: false },
   { src: '/mobile/7.png', delay: 1.4, isStatic: false },
   { src: '/mobile/mb5-6.png', delay: 1.6, isStatic: false },
-  { src: '/mobile/mb3-4.png', delay: 2.6, isStatic: false },
+  { src: '/mobile/mb3-4.png', delay: 2.4, isStatic: false },
   { src: '/mobile/mb1-2.png', delay: 2.0, isStatic: false },
   { src: '/mobile/mbme.png', delay: 2.2, isStatic: false},
   { src: '/mobile/mobile bg.png', delay: 0, isStatic: true },
