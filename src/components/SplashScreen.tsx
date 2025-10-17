@@ -81,7 +81,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
       <div className="relative flex flex-col items-center justify-center">
         <div
           ref={dotRef}
-          className="absolute w-8 h-8 bg-white rounded-full"
+          className="absolute w-8 h-8 bg-[#fcf6e8] rounded-full"
           style={{ transformOrigin: 'center center' }}
         />
         <div
