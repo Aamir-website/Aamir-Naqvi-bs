@@ -118,7 +118,7 @@ gsap.to(mobileElements, {
       scrollTrigger: { 
         trigger: portfolioSectionRef.current,
         start: "top top",
-        end: "bottom top",
+        end: "top center", 
         scrub: 0,
       }
     });
