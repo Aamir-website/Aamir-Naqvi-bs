@@ -1,8 +1,57 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Maximize2, X, Play, Pause } from "lucide-react";
+import { thumbnailLoadQueue } from "../utils/thumbnailLoadQueue";
 
-// Check if device is mobile
 const isMobile = () => window.innerWidth < 768;
+
+interface ThumbnailImageProps {
+  src: string;
+  alt: string;
+  isFullscreen: boolean;
+  isPlaying: boolean;
+  onLoad: () => void;
+  onError: () => void;
+}
+
+function ThumbnailImage({ src, alt, isFullscreen, isPlaying, onLoad, onError }: ThumbnailImageProps) {
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadImage = () => {
+      return new Promise<void>((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          setImageSrc(src);
+          onLoad();
+          resolve();
+        };
+        img.onerror = () => {
+          onError();
+          reject();
+        };
+        img.src = src;
+      });
+    };
+
+    thumbnailLoadQueue.add(loadImage);
+  }, [src, onLoad, onError]);
+
+  if (!imageSrc) {
+    return null;
+  }
+
+  return (
+    <img
+      src={imageSrc}
+      alt={alt}
+      className={`absolute inset-0 w-full h-full ${
+        isFullscreen ? 'object-contain' : 'object-cover'
+      } transition-opacity duration-300 ${
+        isPlaying ? 'opacity-0' : 'opacity-100'
+      }`}
+    />
+  );
+}
 
 interface VideoThumbnailProps {
   src: string;
@@ -40,7 +89,6 @@ export function VideoThumbnail({
     return null;
   };
 
-  // Intersection Observer for lazy loading
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -52,9 +100,9 @@ export function VideoThumbnail({
           observer.disconnect();
         }
       },
-      { 
-        rootMargin: '100px',
-        threshold: 0.1
+      {
+        rootMargin: '200px',
+        threshold: 0.01
       }
     );
 
@@ -122,16 +170,12 @@ export function VideoThumbnail({
       } ${className}`}
       onClick={handleClick}
     >
-      {/* Static thumbnail image */}
       {thumbnailPath && isInView && (
-        <img
+        <ThumbnailImage
           src={thumbnailPath}
           alt={`${title} thumbnail`}
-          className={`absolute inset-0 w-full h-full ${
-            isFullscreen ? 'object-contain' : 'object-cover'
-          } transition-opacity duration-300 ${
-            isPlaying ? 'opacity-0' : 'opacity-100'
-          }`}
+          isFullscreen={isFullscreen}
+          isPlaying={isPlaying}
           onLoad={() => setThumbnailLoaded(true)}
           onError={() => {
             console.warn(`Thumbnail not found: ${thumbnailPath}`);
