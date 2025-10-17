@@ -25,7 +25,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             ease: 'power2.out'
         },
         {
-          scale: 5,
+          scale: 9,
           duration: 0.8,
           ease: 'power2.out'
         }
