@@ -86,7 +86,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
         />
         <div
           ref={textRef}
-          className="relative z-999999 opacity-0"
+          className="relative z-999 opacity-0"
         >
           <h1 className="text-4xl md:text-6xl font-bosenAlt text-[#151d21] tracking-wider">
             WELCOME
