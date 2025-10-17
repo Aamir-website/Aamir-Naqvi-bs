@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { LazyVideo } from './components/LazyVideo';
 import { useThrottledMouseTracking } from './hooks/useThrottledMouseTracking';
 import { MobileBadgeCarousel } from './components/MobileBadgeCarousel';
+import { SplashScreen } from './components/SplashScreen';
 
 // Mobile viewport height handler
 function setMobileVH() {
@@ -52,6 +53,7 @@ const desktopImages = [
  
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [isLoading, setIsLoading] = React.useState(true);
   const [showContact, setShowContact] = React.useState(false);
   const [showArrow, setShowArrow] = React.useState(true);
@@ -174,12 +176,15 @@ gsap.to(mobileElements, {
   };
 }, []);
 
- 
- 
-  return ( 
+
+
+  return (
     <div className="relative">
-   
-  
+      {showSplash && (
+        <SplashScreen onComplete={() => setShowSplash(false)} />
+      )}
+
+
 <div
   ref={fixedBackgroundRef}
   className="fixed inset-0 bg-center bg-no-repeat z-[-1] 
