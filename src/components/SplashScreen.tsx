@@ -20,11 +20,11 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
     tl.set(containerRef.current, { opacity: 1 })
       .fromTo(dotRef.current,
         {
-          scale: 1,
+          scale: 0,
           opacity: 1
         },
         {
-          scale: 1,
+          scale: 20,
           duration: 0.8,
           ease: 'power2.out'
         }
